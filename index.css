@@ -1,0 +1,87 @@
+:root {
+	--afterText: "";
+}
+html {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: white;
+}
+body {
+	font-family: "Roboto Mono", monospace;
+	font-size: 1.5em;
+	font-weight: lighter;
+	width: 100%;
+}
+body > * {
+	margin: 30px;
+}
+h1 {
+	text-align: center;
+	font-weight: normal;
+}
+h2 {
+	margin: 0;
+	font-weight: normal;
+}
+#searchDiv {
+	width: 50em;
+	margin-left: auto;
+	margin-right: auto;
+}
+#search {
+	font-size: inherit;
+	font-family: inherit;
+	display: inline-block;
+	height: 1em;
+	width: 100%;
+	border-bottom: 1px solid black;
+	padding: 5px;
+	outline: none;
+	white-space: pre;
+}
+#search:after {
+	content: attr(data-value);
+	color: grey;
+}
+#autocorrectResults {
+	position: absolute;
+	background: white;
+	width: calc(50em + 10px);
+}
+#autocorrectResults span {
+	display: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+#autocorrectResults span:focus {
+	background: #eee;
+	outline: none;
+}
+#linksContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+.links {
+	display: inline-block;
+	padding: 20px;
+	border: 1px solid black;
+	margin: 30px;
+	text-align: center;
+	width: 15em;
+}
+.links * {
+	line-height: 2;
+}
+a {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
