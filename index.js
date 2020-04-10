@@ -1,11 +1,14 @@
-const bookmarks = {
+const clockString = () => new Date().toLocaleDateString(undefined, {"hour": "numeric", "minute": "numeric", "month": "long", "weekday": "long", "day": "numeric", "year": "numeric"})
+let stopComplete = false
+
+let bookmarks = {
 	"codegolf": "https://codegolf.stackexchange.com/",
 	"cloudflare": "https://www.cloudflare.com/",
 	"bert": "http://bert.stuy.edu/pbrooks/",
 	"somafm": "https://somafm.com/",
 	"wolframalpha": "https://www.wolframalpha.com/",
 }
-const bangs = {
+let bangs = {
 	"!g": {url: "https://www.google.com/search?q=", desc: "Google"},
 	"!y": {url: "https://www.youtube.com/results?search_query=", desc: "YouTube"},
 	"!d": {url: "https://duckduckgo.com/?q=", desc: "Duck Duck Go"},
@@ -15,13 +18,14 @@ const bangs = {
 	"!go": {url: "https://golang.org/pkg/", desc: "Go Package Documentation"},
 	"!mdn": {url: "https://developer.mozilla.org/en-US/search?q=", desc: "MDN Documentation"}
 }
-const clockString = () => new Date().toLocaleDateString(undefined, {"hour": "numeric", "minute": "numeric", "month": "long", "weekday": "long", "day": "numeric", "year": "numeric"})
-let stopComplete = false
-window.onload = () => {
-	const date = document.getElementById("date")
-	date.innerText = clockString()
-	setInterval(() => date.innerText = clockString(), 60000)
+Promise.all([browser.storage.sync.get("bangs"), browser.storage.sync.get("bookmarks")]).then(results => {
+	console.log(results)
+	if (results[0].bangs) bangs = results[0].bangs
+	if (results[1].bookmarks) bookmarks = results[1].bookmarks
+	setupAutocompleteElements()
+})
 
+function setupAutocompleteElements() {
 	const bookmarksElement = document.getElementById("bookmarks")
 	Object.keys(bookmarks).forEach(bookmark => {
 		setupElement(bookmarksElement, bookmark, bookmark)
@@ -30,6 +34,13 @@ window.onload = () => {
 	Object.keys(bangs).forEach(bang => {
 		setupElement(bangsElement, `${bang} - ${bangs[bang].desc}`, bang)
 	})
+}
+
+window.onload = () => {
+	const date = document.getElementById("date")
+	date.innerText = clockString()
+	setInterval(() => date.innerText = clockString(), 60000)
+
 	const searchInput = document.getElementById("search")
 	searchInput.focus()
 	searchInput.setAttribute("data-value", "Search")
