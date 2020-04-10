@@ -65,6 +65,19 @@ window.onload = () => {
 	})
 	searchInput.addEventListener("keyup", e => e.preventDefault())
 }
+function changeSearchText(newText) {
+	const search = document.getElementById("search")
+	search.innerHTML = newText
+	search.focus()
+	const sel = window.getSelection()
+	const range = document.createRange()
+	range.setStart(search, 1)
+	range.collapse(true)
+	sel.removeAllRanges()
+	sel.addRange(range)
+	search.setAttribute("data-value", "")
+}
+
 function setupElement(parent, innerHTML, dv) {
 	const newElement = document.createElement("span")
 	newElement.setAttribute("class", "autocomplete")
@@ -92,15 +105,7 @@ function setupElement(parent, innerHTML, dv) {
 			if (bookmarks[this.getAttribute("data-value")]) {
 				window.location.href = bookmarks[this.getAttribute("data-value")]
 			} else { //must be bang, if changes change this
-				search.innerHTML = this.getAttribute("data-value") + " "
-				search.focus()
-				const sel = window.getSelection()
-				const range = document.createRange()
-				range.setStart(search, 1)
-				range.collapse(true)
-				sel.removeAllRanges()
-				sel.addRange(range)
-				search.setAttribute("data-value", "")
+				changeSearchText(this.getAttribute("data-value") + " ")
 			}
 		}
 	})
@@ -122,9 +127,14 @@ function search(term) {
 		window.location.href = bookmarks[term.toLowerCase()]
 		return
 	} else {
-		const prefix = term.toLowerCase().split(" ")[0]
-		if (Object.keys(bangs).includes(prefix)) {
-			window.location.href = bangs[prefix].url + encodeURIComponent(term.split(" ")[1])
+		//const split = term.match(/(?:^.*?(?= )|(?<= ).*$)/g)
+		const split = term.split(/ (.+)/)
+		if (split.length < 2) {
+			changeSearchText(term + " ")
+			return
+		}
+		if (Object.keys(bangs).includes(split[0])) {
+			window.location.href = bangs[split[0]].url + encodeURIComponent(split[1])
 			return
 		}
 		window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(term)
