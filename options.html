@@ -3,6 +3,7 @@
 	<head>
 		<title>Simple Startpage Settings</title>
 		<script src="options.js"></script>
+		<meta charset="utf-8">
 <style>
 textarea {
 	width: 100%;
@@ -11,16 +12,18 @@ textarea {
 </style>
 	</head>
 	<body>
-		<form>
-			<label>
-				Bangs (JSON format)<br/>
-				<textarea id="bangs"></textarea>
-			</label><br/>
-			<label>
-				Bookmarks (JSON format)<br/>
-				<textarea id="bookmarks"></textarea>
-			</label>
-			<button type="submit">Save</button>
+		<h1>Settings for the Simple Startpage</h1>
+		<p>First input is the name of the bookmark, second is its URL</p>
+		<div id="bookmarks"></div><br/>
+		<div>
+			<input/><input/><button id="addBookmark">Add Bookmark</button>
+		</div><br/>
+		<p>First input is the shortcut of the bang, second is the URL it appends to, third is its description.</p>
+		<div id="bangs"></div><br/>
+		<div>
+			<input/><input/><input/><button id="addBang">Add Bang</button>
+		</div><br/>
+		<button id="submit">Save</button>
 		</form>
 	</body>
 </html>
