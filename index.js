@@ -127,13 +127,12 @@ function search(term) {
 		window.location.href = bookmarks[term.toLowerCase()]
 		return
 	} else {
-		//const split = term.match(/(?:^.*?(?= )|(?<= ).*$)/g)
 		const split = term.split(/ (.+)/)
-		if (split.length < 2) {
-			changeSearchText(term + " ")
-			return
-		}
 		if (Object.keys(bangs).includes(split[0])) {
+			if (split.length < 2) {
+				changeSearchText(term + " ")
+				return
+			}
 			window.location.href = bangs[split[0]].url + encodeURIComponent(split[1])
 			return
 		}
